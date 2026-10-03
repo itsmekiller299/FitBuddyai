@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}FitBuddy – Admin{% endblock %}
+{% block content %}
+<div class="hero compact"><p class="eyebrow">ADMIN DASHBOARD</p><h1>Registered users</h1><p class="muted">Review stored profiles and original/updated plans.</p></div>
+{% if not users %}<div class="card">No users have been registered yet.</div>{% endif %}
+{% for user in users %}
+<article class="card admin-user">
+  <div class="profile">
+    <div><span>Name</span><strong>{{ user.name }}</strong></div><div><span>User ID</span><strong>{{ user.user_id }}</strong></div><div><span>Age</span><strong>{{ user.age }}</strong></div><div><span>Goal</span><strong>{{ user.goal }}</strong></div><div><span>Intensity</span><strong>{{ user.intensity }}</strong></div>
+  </div>
+  {% for plan in user.plans %}
+  <details><summary>Plan #{{ plan.id }} — created {{ plan.created_at }}</summary><h3>Original plan</h3><pre>{{ plan.original_plan }}</pre>{% if plan.updated_plan %}<h3>Updated plan</h3><pre>{{ plan.updated_plan }}</pre><p><b>Feedback:</b> {{ plan.feedback }}</p>{% endif %}</details>
+  {% endfor %}
+  <form method="post" action="/admin/delete/{{ user.user_id }}" onsubmit="return confirm('Delete this user and all plans?');"><button class="danger" type="submit">Delete user</button></form>
+</article>
+{% endfor %}
+{% endblock %}

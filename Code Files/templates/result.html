@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}FitBuddy – Your Plan{% endblock %}
+{% block content %}
+{% if message %}<div class="success">{{ message }}</div>{% endif %}
+<section class="card profile">
+  <div><span>Name</span><strong>{{ user.name }}</strong></div>
+  <div><span>User ID</span><strong>{{ user.user_id }}</strong></div>
+  <div><span>Age</span><strong>{{ user.age }}</strong></div>
+  <div><span>Goal</span><strong>{{ user.goal }}</strong></div>
+  <div><span>Intensity</span><strong>{{ user.intensity }}</strong></div>
+</section>
+<section class="hero compact"><p class="eyebrow">PERSONALIZED PLAN</p><h1>{{ plan.title }}</h1></section>
+{% for day in plan.days %}
+<article class="card day">
+  <div class="day-head"><div><span class="eyebrow">{{ day.day }}</span><h2>{{ day.focus }}</h2></div></div>
+  <p><b>Warm-up:</b> {{ day.warmup }}</p>
+  <div class="exercise-list">
+    {% for exercise in day.exercises %}
+    <div class="exercise"><strong>{{ exercise.name }}</strong><span>{{ exercise.sets_or_duration }} · {{ exercise.reps_or_time }} · Rest {{ exercise.rest }}</span></div>
+    {% endfor %}
+  </div>
+  <p><b>Cooldown:</b> {{ day.cooldown }}</p>
+</article>
+{% endfor %}
+<div class="card safety"><b>Safety:</b> {{ plan.safety_note }}</div>
+{% if nutrition_tip %}
+<section class="card tip"><span class="eyebrow">NUTRITION / RECOVERY</span><h2>{{ nutrition_tip.tip }}</h2><p>{{ nutrition_tip.recovery_note }}</p></section>
+{% endif %}
+<section class="card">
+  <span class="eyebrow">REFINE YOUR PLAN</span>
+  <h2>Tell FitBuddy what you want changed</h2>
+  <form method="post" action="/submit-feedback">
+    <input type="hidden" name="user_id" value="{{ user.user_id }}">
+    <textarea name="feedback" required maxlength="1000" placeholder="Example: make cardio lighter and add another recovery day"></textarea>
+    <button class="button" type="submit">Update Plan</button>
+  </form>
+</section>
+{% endblock %}
