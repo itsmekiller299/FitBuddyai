@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}FitBuddy – Generate a Plan{% endblock %}
+{% block content %}
+<section class="hero">
+  <p class="eyebrow">AI FITNESS PLANNER</p>
+  <h1>Your 7-day plan, built around your goal.</h1>
+  <p class="muted">Enter a few details and FitBuddy will create a structured workout plan plus a nutrition/recovery tip.</p>
+</section>
+<form class="card form-grid" method="post" action="/generate-workout">
+  <label>Name<input name="name" required maxlength="120" placeholder="Your name"></label>
+  <label>User ID<input name="user_id" required maxlength="64" placeholder="e.g. KB001"></label>
+  <label>Age<input name="age" type="number" min="13" max="120" required></label>
+  <label>Weight (kg)<input name="weight" type="number" min="20" max="500" step="0.1" required></label>
+  <label>Fitness goal<select name="goal"><option>general wellness</option><option>weight loss</option><option>muscle gain</option><option>flexibility</option></select></label>
+  <label>Workout intensity<select name="intensity"><option>low</option><option selected>medium</option><option>high</option></select></label>
+  <div class="full"><p class="notice">For users under 18, the app automatically keeps plans focused on healthy movement and wellness rather than weight-loss targets.</p></div>
+  <button class="button full" type="submit">Generate 7-Day Plan</button>
+</form>
+{% endblock %}
